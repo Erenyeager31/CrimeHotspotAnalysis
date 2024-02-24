@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CrimeSpoter</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+  <style>
+    /* loginpopdown */
+    .loginpopdown{
+      background-color: #DC052D
+    }
+    .maindiv {
+      margin-top: 180px;
+    }
+
+    body {
+      background-color: black;
+      color: azure;
+
+    }
+
+    /* nav bar hamburger */
+    #menu {
+      z-index: 2;
+    }
+
+    #menu-bar {
+      width: 45px;
+      height: 40px;
+      margin: 30px 0 20px 20px;
+      cursor: pointer;
+    }
+
+    .bar {
+      height: 5px;
+      width: 100%;
+      background-color: #DC052D;
+      display: block;
+      border-radius: 5px;
+      transition: 0.3s ease;
+    }
+
+    #bar1 {
+      transform: translateY(-4px);
+    }
+
+    #bar3 {
+      transform: translateY(4px);
+    }
+
+    .nav {
+      transition: 0.3s ease;
+      display: none;
+    }
+
+    .nav ul {
+      padding: 0 22px;
+    }
+
+    .nav li {
+      list-style: none;
+      padding: 12px 0;
+    }
+
+    .nav li a {
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    .nav li a:hover {
+      font-weight: bold;
+    }
+
+    .menu-bg,
+    #menu {
+      top: 0;
+      left: 0;
+      position: absolute;
+    }
+
+    .menu-bg {
+      z-index: 1;
+      width: 0;
+      height: 0;
+      margin: 30px 0 20px 20px;
+      background: radial-gradient(circle, #DC052D, #DC052D);
+      border-radius: 50%;
+      transition: 0.3s ease;
+    }
+
+    .change {
+      display: block;
+    }
+
+    .change .bar {
+      background-color: white;
+    }
+
+    .change #bar1 {
+      transform: translateY(4px) rotateZ(-45deg);
+    }
+
+    .change #bar2 {
+      opacity: 0;
+    }
+
+    .change #bar3 {
+      transform: translateY(-6px) rotateZ(45deg);
+    }
+
+    .change-bg {
+      width: 520px;
+      height: 460px;
+      transform: translate(-60%, -30%);
+    }
+
+
+    /* footer animation css */
+
+    .sea {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 200px;
+      /* Adjust the height as needed */
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      /* Adjust the height of the waves */
+      background-color: #DC052D;
+      /* Lighter red color */
+      animation: waveAnimation 6s infinite linear;
+    }
+
+    @keyframes waveAnimation {
+
+      0%,
+      100% {
+        transform: translateY(0) translateX(0);
+      }
+
+      25% {
+        transform: translateY(-20px) translateX(5px);
+      }
+
+      50% {
+        transform: translateY(0) translateX(0);
+      }
+
+      75% {
+        transform: translateY(20px) translateX(-5px);
+      }
+    }
+
+    .wave:nth-child(2) {
+      animation-delay: -2s;
+      height: 140px;
+    }
+
+    .wave:nth-child(3) {
+      animation-delay: -4s;
+      height: 100px;
+    }
+
+
+    /* footer content */
+    .menu__link:h.footer {
+      position: relative;
+      width: 100%;
+      background: #3586ff;
+      min-height: 100px;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .social-icon,
+    .menu {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* margin: 10px 0; */
+      margin-top: 80px;
+      flex-wrap: wrap;
+    }
+
+    .social-icon__item,
+    .menu__item {
+      list-style: none;
+    }
+
+    .social-icon__link {
+      font-size: 2rem;
+      color: #fff;
+      margin: 0 10px;
+      display: inline-block;
+      transition: 0.5s;
+    }
+
+    .social-icon__link:hover {
+      transform: translateY(-10px);
+    }
+
+    .menu__link {
+      font-size: 1.2rem;
+      color: #fff;
+      margin: 0 10px;
+      display: inline-block;
+      transition: 0.5s;
+      text-decoration: none;
+      opacity: 0.75;
+      font-weight: 300;
+    }
+
+    over {
+      opacity: 1;
+    }
+
+    .menu__item {
+      margin-top: -120px;
+    }
+
+
+    /* middle nav bar */
+    div.midnav {
+      /* font-family: Raleway; */
+      /* margin: 0 auto; */
+      /* padding: 10em 3em; */
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    div.midnav a {
+      color: #FFF;
+      text-decoration: none;
+      font: 20px Raleway;
+      /* margin: 0px 10px; */
+      padding: 10px 10px;
+      position: relative;
+      z-index: 0;
+      cursor: pointer;
+    }
+
+    div.circleBehind a:before,
+    div.circleBehind a:after {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      border: 4px solid #DC052D;
+      transform: translateX(-50%) translateY(-50%) scale(0.8);
+      border-radius: 50%;
+      background: transparent;
+      content: "";
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: -1;
+    }
+
+    div.circleBehind a:after {
+      border-width: 2px;
+      transition: all 0.4s;
+    }
+
+    div.circleBehind a:hover:before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-50%) scale(1);
+    }
+
+    div.circleBehind a:hover:after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-50%) scale(1.3);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- nav bar hamburger -->
+  <nav>
+    <div id="menu">
+      <div id="menu-bar" onclick="menuOnClick()">
+        <div id="bar1" class="bar"></div>
+        <div id="bar2" class="bar"></div>
+        <div id="bar3" class="bar"></div>
+      </div>
+      <nav class="nav" id="nav">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Services</a></li>
+
+        </ul>
+      </nav>
+    </div>
+
+    <div class="menu-bg" id="menu-bg"></div>
+
+    <div class="midnav circleBehind">
+      <a>HOME</a>
+      <a>ARTICLES</a>
+      <a>PORTFOLIO</a>
+      <a>ABOUT</a>
+      <a>CONTACT</a>
+    </div>
+
+  </nav>
+
+  <!-- main body -->
+  <div class="container text-center ">
+
+    <div class="container align-items-center maindiv">
+      <h1><span class="auto-type"></span></h1>
+      <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+      <h3>Say no to crime!</h3>
+      <br>
+
+      <div class="offcanvas offcanvas-top loginpopdown" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title text-white" id="offcanvasTopLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="container" >
+            <!-- <h1 class="text-white">Login</h1> -->
+            <!-- <form id="signin-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="otp" placeholder="Enter otp" required>
+                <button type="button" style="background-color: black;" id="LIbutton" class="btn btn-outline-light rounded-pill px-3"
+                    onmouseover="changeColorLI(true)" onmouseout="changeColorLI(false)">Login</button>
+            </form>
+            <div id="error-message"></div> -->
+            
+            <form class="row g-3">
+              <div class="col-md-6">
+                <label for="uname" class="form-label text-white">Username</label>
+                <input type="text" class="form-control" id="uname">
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label text-white">Password</label>
+                <input type="password" class="form-control" id="inputPassword4">
+              </div>
+              
+              <div class="col-12">
+                <button type="button" style="background-color: black;" id="LIbutton" class="btn btn-outline-light rounded-pill px-3"
+                    onmouseover="changeColorLI(true)" onmouseout="changeColorLI(false)">Login</button>
+              </div>
+            </form>
+        </div>
+        </div>
+      </div>
+      <button type="button" id="CAbutton" class="btn btn-outline-light rounded-pill px-3"
+        onmouseover="changeColorCA(true)" onmouseout="changeColorCA(false)">Register</button>
+      <button type="button" id="SIbutton" class="btn btn-outline-light rounded-pill px-3"
+        onmouseover="changeColorSI(true)" onmouseout="changeColorSI(false)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
+        aria-controls="offcanvasTop">Sign in</button>
+
+    </div>
+
+  </div>
+
+  <!-- footer -->
+  <footer>
+    <div class="sea">
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"> </div>
+
+      <footer class="footer">
+        <ul class="social-icon">
+          <li class="social-icon__item"><a class="social-icon__link" href="#">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a></li>
+          <li class="social-icon__item"><a class="social-icon__link" href="#">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a></li>
+          <li class="social-icon__item"><a class="social-icon__link" href="#">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a></li>
+          <li class="social-icon__item"><a class="social-icon__link" href="#">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a></li>
+        </ul>
+        <ul class="menu">
+          <li class="menu__item"><a class="menu__link" href="#">Home</a></li>
+          <li class="menu__item"><a class="menu__link" href="#">About</a></li>
+          <li class="menu__item"><a class="menu__link" href="#">Services</a></li>
+          <li class="menu__item"><a class="menu__link" href="#">Team</a></li>
+          <li class="menu__item"><a class="menu__link" href="#">Contact</a></li>
+
+        </ul>
+
+      </footer>
+      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+
+
+    </div>
+    <!-- <div class="container">
+      <p>&copy;2021  | All Rights Reserved</p>
+    </div> -->
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+
+  <!-- welcome animation -->
+  <script>
+    var typed = new Typed(".auto-type", {
+      strings: ["Welcome to CrimeSpoter"],
+      typeSpeed: 100,
+      backSpeed: 100,
+      loop: true
+    })
+  </script>
+
+  <script> //nav bar hamburger
+    function menuOnClick() {
+      document.getElementById("menu-bar").classList.toggle("change");
+      document.getElementById("nav").classList.toggle("change");
+      document.getElementById("menu-bg").classList.toggle("change-bg");
+    }
+  </script>
+
+  <!-- button color change -->
+  <script>
+    function changeColorCA(onHover) {
+      var CAbutton = document.getElementById('CAbutton');
+
+      if (onHover) {
+        CAbutton.style.backgroundColor = '#DC052D'; /* Color to change to on hover */
+      } else {
+        CAbutton.style.backgroundColor = 'black'; /* Initial color when not hovering */
+      }
+    }
+
+    function changeColorSI(onHover) {
+      var SIbutton = document.getElementById('SIbutton');
+
+      if (onHover) {
+        SIbutton.style.backgroundColor = '#DC052D'; /* Color to change to on hover */
+      } else {
+        SIbutton.style.backgroundColor = 'black'; /* Initial color when not hovering */
+      }
+    }
+
+    function changeColorLI(onHover) {
+            var SIbutton = document.getElementById('SIbutton');
+
+            if (onHover) {
+                LIbutton.style.backgroundColor = '#DC052D'; /* Color to change to on hover */
+            } else {
+                LIbutton.style.backgroundColor = 'black'; /* Initial color when not hovering */
+            }
+        }
+    </script>
+  </script>
+
+</body>
+
+</html>
