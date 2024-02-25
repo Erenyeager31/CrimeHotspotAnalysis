@@ -145,7 +145,7 @@ def login(request):
         data = json.loads(json_data)
         username = data.get("username")
         password = data.get("password")
-        # print(f'{username}_{password}')
+        print(f'{username}_{password}')
         try:
             user = User.objects.filter(username=username).first()
             res = {
@@ -161,7 +161,7 @@ def login(request):
                 res['message'] = "Invalid Credentials"
                 return JsonResponse(res)
         except Exception as e:
-            return HttpResponse("Error Occured")
+            return HttpResponse(e)
     else:
         return JsonResponse({
             "status":False,
