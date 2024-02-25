@@ -3,10 +3,10 @@ import re
 from frontend.models import User
 from django.core.cache import cache
 import random
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.views.decorators.csrf import csrf_exempt
 import json
-# from django.http import JsonResponse
+from django.http import JsonResponse
 
 #? Email regex
 regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+")
@@ -36,37 +36,66 @@ def register(request):
 #? Email verification and otp generation
 def verify_email(request):
     if request.method == "POST":
-        email = request.POST.get("email")
+        print(request.body)
+        json_data = request.body.decode('utf-8')
+        data = json.loads(json_data)
+        email = data.get("email")
         try:
             if re.fullmatch(regex,email):
                 #? proccessing email
                 users = User.objects.filter(email).values().first()
                 if users:
-                    return HttpResponse("Email already exists !")
+                    return JsonResponse({
+                        "status":False,
+                        "message":"EmailID already exists"
+                    })
                 else:
                     otp = GenOtpAndStore(email)
-                    # mailing the OTP
+                    return JsonResponse({
+                        "status":True,
+                        "message":"OTP sent succesfully"
+                    })
             else:
-                return HttpResponse("Invalid Email")
+                return JsonResponse({
+                    "status":False,
+                    "message":"Invalid EMAIL"
+                })
         except Exception as e:
-            return HttpResponse("Some error Occured !")
+            return JsonResponse({
+                "status":True,
+                "message":"Some error Occured !"
+            })
     else:
-        return HttpResponse("Unable to process! Please try again")
+        return JsonResponse({
+            "status":True,
+            "message":"Unable to process! Please try again"
+        })
     
 #? OTP verification
 def verifyOtp(request):
     if request.method == "POST":
-        email = request.POST.get("email")
-        otp = request.POST.get("otp")
+        json_data = request.body.decode('utf-8')
+        data = json.loads(json_data)
+        email = data.get("email")
+        otp = data.get("otp")
         try:
             cache_key = f'otp_{email}'
             CachedOtp = cache.get(cache_key)
             if CachedOtp == otp:
-                return HttpResponse("OTP verified Succesfully !")
+                return JsonResponse({
+                    "status":True,
+                    "message":"OTP verified Succesfully !"
+                })
         except Exception as e:
-            return HttpResponse("Some error Occured !")
+            return JsonResponse({
+                "status":False,
+                "message":"Some error Occured"
+            })
     else:
-        return HttpResponse("Unable to process! Please try again")
+        return JsonResponse({
+            "status":False,
+            "message":"Unable to process! Please try again"
+        })
     
 #? Account Creation
 @csrf_exempt
@@ -92,15 +121,53 @@ def accountCreation(request):
                 password=hashedPassword,
             )
             newUser.save()
-            return HttpResponse("Account created succesfully")
+            return JsonResponse({
+                "status":True,
+                "message":"Account Created successfully"
+            })
         except Exception as e:
-            return HttpResponse(
-                "Unable to process! Please try again"
-                # e
-                )
+            return JsonResponse({
+                "status":False,
+                "message":"Unable to proccess, Please try again later"
+            })
 
     else:
-        return HttpResponse("Unable to process! Please try again")
+        return JsonResponse({
+            "status":False,
+            "message":"Unable to proccess, Please try again later"
+        })
+
+#? Login endppoint
+@csrf_exempt
+def login(request):
+    if request.method == "POST":
+        json_data = request.body.decode('utf-8')
+        data = json.loads(json_data)
+        username = data.get("username")
+        password = data.get("password")
+        # print(f'{username}_{password}')
+        try:
+            user = User.objects.filter(username=username).first()
+            res = {
+                "status":False,
+                "message":"Login Successfull"
+            }
+            if check_password(password,user.password):
+                res['status'] = True
+                res['message'] = "Login Successfull"
+                return JsonResponse(res)
+            else:
+                res['status'] = False
+                res['message'] = "Invalid Credentials"
+                return JsonResponse(res)
+        except Exception as e:
+            return HttpResponse("Error Occured")
+    else:
+        return JsonResponse({
+            "status":False,
+            "message":"Unable to proccess, Please try again later"
+        })
+
 
 def test(Request):
     # otp test
