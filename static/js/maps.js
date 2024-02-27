@@ -31,13 +31,13 @@ function initMap() {
 
     const map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    for (const location of locations) {
-        const marker = new google.maps.Marker({
-            position: { lat: location.lat, lng: location.lng },
-            map: map,
-            title: location.name // Add property 'name' to each location object
-        });
-    }
+    // for (const location of locations) {
+    //     const marker = new google.maps.Marker({
+    //         position: { lat: location.lat, lng: location.lng },
+    //         map: map,
+    //         title: location.name // Add property 'name' to each location object
+    //     });
+    // }
 }
 
 document.addEventListener('DOMContentLoaded',function () {

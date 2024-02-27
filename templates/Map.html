@@ -5,14 +5,17 @@
 {% endblock css %} 
 
 {% block script %}
-<script src="../static/js/maps.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnxaNPaKY1Ye9ceSrWTf4bLb7dJ2ppDRQ&callback=initMap"></script>
+<script src="../static/js/maps.js"></script>
+
 {% endblock script %}
 
 {% block body %}
-
-<div class="mapContainer" id="map">
-  
+<div class="MapContainer">
+  <div class="sidebar"></div>
+  <div class="mapContainer" id="map">
 </div>
+</div>
+
 
 {% endblock body %}

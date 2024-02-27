@@ -1,7 +1,20 @@
-.mapContainer{
+.MapContainer{
     width: 100vw;
     height: 90vh;
-    /* background-color: #fff; */
+    display: flex;
+    z-index: 2;
+}
+
+.mapContainer{
+    width: 80%;
+    height: 100%;
     display: flex;
     justify-content: center;
+    padding-left: 10px;
+}
+
+.sidebar{
+    width: 20%;
+    height: 100%;
+    background-color: #DC052D;
 }

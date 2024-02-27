@@ -7,9 +7,30 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
+import gspread
+import pandas as pd
+from oauth2client.service_account import ServiceAccountCredentials
 
 #? Email regex
 regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+")
+
+#? Set up Google Sheets API credentials
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+path = "../static/js/credentials.json"
+creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/Dishant/Desktop/Engineering_docs/Third Year Material/sem_6/Mini_project/CrimeHotspotAnalysis/static/js/credentials.json', scope)
+client = gspread.authorize(creds)
+
+def fetch_google_sheets_data(worksheet_name):
+    # Open the worksheet
+    worksheet = client.open('CrimeDataset').worksheet(worksheet_name)
+
+    # Get all records from the worksheet
+    records = worksheet.get_all_records()
+
+    # Convert records to Pandas DataFrame
+    df = pd.DataFrame(records)
+
+    return df['crime Location']
 
 #? function for otp generation
 def GenOtpAndStore(email):
@@ -176,8 +197,20 @@ def map(request):
     return render(request,'Map.html')
 
 def fetchData(request):
+    # Get the worksheet name in the Google Sheets from where you want to fetch data
+    worksheet_name = 'CrimeDataset'
+
+    try:
+        # Fetch data from Google Sheets and convert to Pandas DataFrame
+        df = fetch_google_sheets_data(worksheet_name)
+        print("Data fetched from Google Sheets:")
+        print(df)
+
+    except Exception as e:
+        print(f"Error: {e}")
+        print("Please make sure your Google Sheets credentials are set up correctly.")
+
     return JsonResponse({
-        "message":"hi"
     })
 
 def test(Request):
