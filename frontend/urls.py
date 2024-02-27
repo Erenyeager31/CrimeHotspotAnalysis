@@ -11,5 +11,10 @@ urlpatterns = [
     #* Map routing
     path('map',views.map,name="Map"),
     path('fetchData',views.fetchData,name="fetchData"),
-    path('test',views.test,name="test")
+    path('test',views.test,name="test"),
+
+    #* registeration and details page
+    path('registeration/', views.registeration, name='registeration'),
+    path('details/', views.details, name='details')
+    
 ]
