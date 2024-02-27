@@ -8,5 +8,7 @@ urlpatterns = [
     path('verifyEmail',include('frontend.urls')),
     path('createUser',include('frontend.urls')),
     path('login',include('frontend.urls')),
+    path('map',include('frontend.urls')),
+    path('fetchData',include('frontend.urls')),
     path('test',include('frontend.urls')),
 ]

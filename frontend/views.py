@@ -168,6 +168,17 @@ def login(request):
             "message":"Unable to proccess, Please try again later"
         })
 
+#**************************************************************
+#*                            MAP                             *
+#**************************************************************
+
+def map(request):
+    return render(request,'Map.html')
+
+def fetchData(request):
+    return JsonResponse({
+        "message":"hi"
+    })
 
 def test(Request):
     # otp test
