@@ -186,3 +186,14 @@ def test(Request):
     otp = GenOtpAndStore(email)
     cache_key = f'otp_{email}'
     return HttpResponse(cache.get(cache_key))
+
+
+#? registeration page
+def registeration(request):
+    template = loader.get_template('registeration_page.html')
+    return HttpResponse(template.render())
+
+#? registeration/details page
+def details(request):
+    template = loader.get_template('details.html')
+    return HttpResponse(template.render())
