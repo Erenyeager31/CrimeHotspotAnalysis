@@ -1,6 +1,4 @@
-{% extends "base.html" %} 
-
-{% block body %}
+{% extends "base.html" %} {% block body %}
 <div class="container text-center">
   <div class="container align-items-center maindiv">
     <h1><span class="auto-type"></span></h1>
@@ -61,7 +59,7 @@
       onmouseover="changeColorCA(true)"
       onmouseout="changeColorCA(false)"
     >
-      Register
+      <a href="/register"> Register </a>
     </button>
     <button
       type="button"
@@ -77,9 +75,7 @@
     </button>
   </div>
 </div>
-{% endblock body %}
-
-{% block footer %} 
+{% endblock body %} {% block footer %}
 <!-- footer -->
 <footer>
   <div class="sea">
