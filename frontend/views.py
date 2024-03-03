@@ -20,6 +20,19 @@ path = "../static/js/credentials.json"
 creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/Dishant/Desktop/Engineering_docs/Third Year Material/sem_6/Mini_project/CrimeHotspotAnalysis/static/js/credentials.json', scope)
 client = gspread.authorize(creds)
 
+def custom_data_converter(df):
+  """Converts DataFrame to a list of dictionaries, replacing 'NA' with 'NA'."""
+  data_list = []
+  for index, row in df.iterrows():
+    if (index == 40):
+        print(data_dict)
+    data_dict = row.replace('nan', 'NA').to_dict()  # Replace 'NA' before conversion
+    if (index == 40):
+        print(data_dict)
+    print()
+    data_list.append(data_dict)
+  return data_list
+
 def fetch_google_sheets_data(worksheet_name):
     # Open the worksheet
     worksheet = client.open('CrimeDataset').worksheet(worksheet_name)
@@ -197,21 +210,40 @@ def map(request):
     return render(request,'Map.html')
 
 def fetchData(request):
-    # Get the worksheet name in the Google Sheets from where you want to fetch data
-    worksheet_name = 'CrimeDataset'
-
+    filename = 'frontend/files/ProcessedData.csv'
     try:
-        # Fetch data from Google Sheets and convert to Pandas DataFrame
-        df = fetch_google_sheets_data(worksheet_name)
-        print("Data fetched from Google Sheets:")
-        print(df)
+        df = pd.read_csv(filename)
+        print(f"Data fetched from local file '{filename}':")
+        # print(df)
+        df.fillna('NA',inplace=True)
+        selected_df = df[[
+            'crime description', 
+            'crime Location', 
+            'Link/source'
+            ]]
+        # data = custom_data_converter(df)
+        data = selected_df.to_json(orient='records',lines=True)
+        # print(data)
+        return JsonResponse({
+            "status":"True",
+            "message":"Data fetched succesfully",
+            "Data":data
+        })
 
-    except Exception as e:
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found. Please check the file path.")
+        return JsonResponse({
+            "status":"False",
+            "message":"Some error uccured, please try again later"
+        })
+    except Exception as e:    
         print(f"Error: {e}")
-        print("Please make sure your Google Sheets credentials are set up correctly.")
+        return JsonResponse({
+            "status":"False",
+            "message":"Some error uccured, please try again later"
+        })
+    # No return statement needed as the script doesn't return data
 
-    return JsonResponse({
-    })
 
 def test(Request):
     # otp test
