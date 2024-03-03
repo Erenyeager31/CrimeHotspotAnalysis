@@ -31,21 +31,33 @@
 
   <body>
     <div class="container">
-      <form class="login">
-        <input type="text" placeholder="Set Username" />
-        <input type="text" placeholder="Set password" />
-        <input type="password" placeholder="Renter password" />
-        <button
-          type="button"
-          id="submit_button"
-          class="btn btn-outline-light rounded-pill px-3"
-          style="background-color: black"
-          onmouseover="changeColor_Verify(true)"
-          onmouseout="changeColor_Verify(false)"
-        >
-          Confirm
-        </button>
-      </form>
-    </div>
+    <form class="login">
+        <input type="text" placeholder="Name">
+          <input type="number" placeholder="Age">
+            <label for="gender">Gender</label>
+            <div class="gender">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                        value="option1">
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                        value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                        value="option3">
+                    <label class="form-check-label" for="inlineRadio3">Others</label>
+                </div>
+            </div>
+        <input type="text" placeholder="Set Username">
+        <input type="text" placeholder="Set password">
+        <input type="password" placeholder="Renter password">
+        <button type="button" id="submit_button" class="btn btn-outline-light rounded-pill px-3" style="background-color: black;"
+        onmouseover="changeColor_Verify(true)" onmouseout="changeColor_Verify(false)">Confirm</button>
+    </form>
+</div>
   </body>
 </html>
