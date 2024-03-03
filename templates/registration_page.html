@@ -31,57 +31,16 @@
 
   <body>
     <div class="container">
-      <form class="login">
-        <input type="text" placeholder="Name" />
-        <label for="gender">Gender</label>
-        <div class="gender">
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio1"
-              value="option1"
-            />
-            <label class="form-check-label" for="inlineRadio1">Male</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio2"
-              value="option2"
-            />
-            <label class="form-check-label" for="inlineRadio2">Female</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio3"
-              value="option3"
-            />
-            <label class="form-check-label" for="inlineRadio3">Others</label>
-          </div>
-        </div>
-        <input type="number" placeholder="Age" />
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="OTP" />
-        <button
-          type="button"
-          id="Verify_button"
-          class="btn btn-outline-light rounded-pill px-3"
-          style="background-color: black"
-          onclick="enter_details()"
-          onmouseover="changeColor_Verify(true)"
-          onmouseout="changeColor_Verify(false)"
-          href="/details"
-        >
-          Verify
-        </button>
-      </form>
+        <form class="login">
+            
+            <!-- <input type="number" placeholder="Age"> -->
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="OTP">
+            <!-- <a href="/details">Members</a> -->
+            <button type="button" id="Verify_button" class="btn btn-outline-light rounded-pill px-3"
+                style="background-color: black;" onclick="enter_details()" onmouseover="changeColor_Verify(true)"
+                onmouseout="changeColor_Verify(false)"><a href="/details" style="text-decoration: none; color: white;">Verify</a></button>
+        </form>
     </div>
   </body>
 </html>
