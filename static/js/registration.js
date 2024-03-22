@@ -10,7 +10,50 @@ function changeColor_Verify(onHover) {
     }
 }
 
-function enter_details() {
-    var Verify_button = document.getElementById('Verify_button')
-    window.location.href = 'details.html'
+async function enter_details() {
+    const otpInput = document.getElementById("regOTP")
+    const otpEmail = document.getElementById("regEmail")
+    // alert("hi")
+    if (otpInput.disabled == true) {
+        const response = await fetch("http://127.0.0.1:8000/verifyEmail", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: otpEmail.value
+            })
+        })
+
+        const data = await response.json()
+        if (data.status) {
+            alert(data.message)
+            otpInput.disabled = false
+        } else {
+            alert(data.message)
+        }
+    } else {
+        const response = await fetch("http://127.0.0.1:8000/verifyEmail", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: otpEmail.value,
+                otp: otpInput.value
+            })
+        })
+
+        const data = await response.json()
+        if (data.status) {
+            alert(data.message)
+            window.location.href('details.html')
+        } else {
+            alert(data.message)
+        }
+
+    }
+    // var Verify_button = document.getElementById('Verify_button')
+    // window.location.href = 'details.html'
 }
+

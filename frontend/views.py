@@ -68,28 +68,36 @@ def index(request):
 #     return render(request,"register.html")
 
 #? Email verification and otp generation
+@csrf_exempt
 def verify_email(request):
     if request.method == "POST":
         print(request.body)
         json_data = request.body.decode('utf-8')
         data = json.loads(json_data)
         email = data.get("email")
+        print(email)
         try:
+            print("0")
             if re.fullmatch(regex,email):
                 #? proccessing email
-                users = User.objects.filter(email).values().first()
+                print("-1")
+                users = User.objects.filter(email=email).values().first()
+                print("1")
                 if users:
+                    print("2")
                     return JsonResponse({
                         "status":False,
                         "message":"EmailID already exists"
                     })
                 else:
+                    print("3")
                     otp = GenOtpAndStore(email)
                     return JsonResponse({
                         "status":True,
                         "message":"OTP sent succesfully"
                     })
             else:
+                print("4")
                 return JsonResponse({
                     "status":False,
                     "message":"Invalid EMAIL"
@@ -97,7 +105,7 @@ def verify_email(request):
         except Exception as e:
             return JsonResponse({
                 "status":True,
-                "message":"Some error Occured !"
+                "message":f"Some error Occured !{e}"
             })
     else:
         return JsonResponse({
@@ -106,6 +114,7 @@ def verify_email(request):
         })
     
 #? OTP verification
+@csrf_exempt
 def verifyOtp(request):
     if request.method == "POST":
         json_data = request.body.decode('utf-8')

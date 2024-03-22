@@ -58,11 +58,12 @@ body {
     display: block;
     border-radius: 5px;
     font-size: 16px;
-    background: white;
+    /* background: white; */
     width: 100%;
     border: 0;
     padding: 10px 10px;
     margin: 15px -10px;
+    border: 2px solid black;
 }
 
 @-webkit-keyframes wawes {
@@ -111,3 +112,12 @@ body {
     bottom: 10px;
     font-size: 12px;
 } */
+
+  /* form */
+  #regEmail,#regOTP{
+    border: 2px solid black;
+  }
+
+  .login > input{
+    border: 2px solid black;
+  }

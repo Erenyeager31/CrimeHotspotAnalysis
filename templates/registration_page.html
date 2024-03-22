@@ -31,13 +31,23 @@
 
   <body>
     <div class="container">
-        <form class="login">
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="OTP">
-            <button type="button" id="Verify_button" class="btn btn-outline-light rounded-pill px-3"
-                style="background-color: black;" onclick="enter_details()" onmouseover="changeColor_Verify(true)"
-                onmouseout="changeColor_Verify(false)"><a href="/details" style="text-decoration: none; color: white;">Verify</a></button>
-        </form>
+      <form class="login">
+        <input type="email" placeholder="Email" id="regEmail" />
+        <input type="password" placeholder="OTP" id="regOTP" disabled />
+        <button
+          type="button"
+          id="Verify_button"
+          class="btn btn-outline-light rounded-pill px-3"
+          style="background-color: black"
+          onclick="enter_details()"
+          onmouseover="changeColor_Verify(true)"
+          onmouseout="changeColor_Verify(false)"
+        >
+          <!-- <a href="/details" style="text-decoration: none; color: white"> -->
+            Verify
+          <!-- </a> -->
+        </button>
+      </form>
     </div>
   </body>
 </html>
