@@ -1,14 +1,42 @@
 // const host = "http://127.0.0.1:8000"
 
+var polyCoords = {
+    '0':[],
+    '1':[],
+    '2':[],
+    '3':[],
+    '4':[],
+}
+
 var map
-function initMap(jsonData) {
+var osm
+var polygon = {
+    '0':"",
+    '1':"",
+    '2':"",
+    '3':"",
+    '4':"",
+}
+
+var appliedPolyLayer = 0
+// var polygon1
+// var polygon2
+// var polygon3
+// var polygon4
+function initMap(jsonData,jsonData2) {
     map = L.map('map').setView([19.2307, 72.8567], 13)
 
-    const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     })
     osm.addTo(map)
+
+    polygon['0'] = L.polygon(polyCoords['0'],{fillColor:'red',color:'00000000'})
+    polygon['1'] = L.polygon(polyCoords['1'],{fillColor:'blue',color:'00000000'})
+    polygon['2'] = L.polygon(polyCoords['2'],{fillColor:'yellow',color:'00000000'})
+    polygon['3'] = L.polygon(polyCoords['3'],{fillColor:'green',color:'00000000'})
+    polygon['4'] = L.polygon(polyCoords['4'],{fillColor:'black',color:'00000000'})
 
     addMarkers(map, jsonData)
     addHeatMap(map, jsonData)
@@ -42,7 +70,7 @@ const addHeatMap = (map, jsonData) => {
         }
     })
     // Create heatmap layer
-    console.log(heatmapData)
+    // console.log(heatmapData)
     const heatmap = L.heatLayer(heatmapData).addTo(map);
 
     // Configure heatmap options (optional)
@@ -73,10 +101,49 @@ const fetchData = async () => {
             console.error(`Error parsing line ${index + 1}: ${line}`, error);
         }
     });
-    console.log(jsonData)
-    initMap(jsonData);
+
+    const response2 = await fetch(`${host}/fetchClusters`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'appplication/json'
+        }
+    })
+
+    const data2 = await response2.json()
+    // console.log(data2.Data)
+    var jsonData2 = []
+    const lines2 = data2.Data.split('\n');
+    lines2.forEach((line, index) => {
+        try {
+            jsonData2.push(JSON.parse(line))
+            // console.log(`Line ${index + 1}:`, jsonData); // Start indexing from 1
+        } catch (error) {
+            console.error(`Error parsing line ${index + 1}: ${line}`, error);
+        }
+    });
+    console.log(jsonData2)
+    
+    for(var resData in jsonData2){
+        // console.log(jsonData2[resData]['lat'])
+        var lat = jsonData2[resData]['lat']
+        var long = jsonData2[resData]['long']
+        // console.log(resData,jsonData2[resData]['Cluster'])
+        polyCoords[jsonData2[resData]['Cluster']].push([lat,long])
+    }
+    console.log(polyCoords)
+    
+    initMap(jsonData,jsonData2);
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
     fetchData();
 });
+
+
+function viewCluster(clusterNo){
+    if( appliedPolyLayer !== clusterNo)
+    map.removeLayer(polygon[appliedPolyLayer])
+    polygon[clusterNo].addTo(map)
+    appliedPolyLayer = clusterNo
+}

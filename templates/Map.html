@@ -70,8 +70,6 @@
         </nav>
       </div>
 
-      <div class="menu-bg" id="menu-bg"></div>
-
       <div class="midnav circleBehind">
         <a href="/">HOME</a>
         <a href="map">MAP</a>
@@ -80,7 +78,28 @@
       </div>
     </nav>
     <div class="MapContainer">
-      <div class="sidebar"></div>
+      <div class="sidebar">
+        <ul>
+          <li>
+            <a href="">View Map</a>
+          </li>
+          <li>
+            <a href="#" onclick="viewCluster('0')">Cluster 1</a>
+          </li>
+          <li>
+            <a href="#" onclick="viewCluster('1')">Cluster 2</a>
+          </li>
+          <li>
+            <a href="#" onclick="viewCluster('2')">Cluster 3</a>
+          </li>
+          <li>
+            <a href="#" onclick="viewCluster('3')">Cluster 4</a>
+          </li>
+          <li>
+            <a href="#" onclick="viewCluster('4')">Cluster 5</a>
+          </li>
+        </ul>
+      </div>
       <div class="mapContainer" id="map"></div>
     </div>
   </body>

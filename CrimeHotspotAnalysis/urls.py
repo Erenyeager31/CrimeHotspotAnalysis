@@ -10,5 +10,6 @@ urlpatterns = [
     path('login',include('frontend.urls')),
     path('map',include('frontend.urls')),
     path('fetchData',include('frontend.urls')),
+    path('fetchClusters',include('frontend.urls')),
     path('test',include('frontend.urls')),
 ]

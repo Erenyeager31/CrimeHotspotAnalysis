@@ -252,6 +252,41 @@ def fetchData(request):
             "message":"Some error uccured, please try again later"
         })
 
+def fetchClusterData(request):
+    filename = 'frontend/files/ClusteredData.csv'
+    try:
+        df = pd.read_csv(filename)
+        print(f"Data fetched from local file '{filename}':")
+        # print(df)
+        df.fillna('NA',inplace=True)
+        selected_df = df[[
+            'lat',
+            'long',
+            'Cluster',
+            'Type of crime'
+            ]]
+        # data = custom_data_converter(df)
+        data = selected_df.to_json(orient='records',lines=True)
+        # print(data)
+        return JsonResponse({
+            "status":"True",
+            "message":"Data fetched succesfully",
+            "Data":data
+        })
+
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found. Please check the file path.")
+        return JsonResponse({
+            "status":"False",
+            "message":"Some error uccured, please try again later"
+        })
+    except Exception as e:    
+        print(f"Error: {e}")
+        return JsonResponse({
+            "status":"False",
+            "message":"Some error uccured, please try again later"
+        })
+
 def test(Request):
     # otp test
     email = Request.GET.get("email")
