@@ -269,3 +269,7 @@ def registration(request):
 #? registeration/details page
 def details(request):
     return render(request,'details.html')
+
+def aboutus(request):
+    template = loader.get_template('aboutus.html')
+    return HttpResponse(template.render())
