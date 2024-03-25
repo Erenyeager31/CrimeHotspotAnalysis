@@ -15,10 +15,10 @@ from oauth2client.service_account import ServiceAccountCredentials
 regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+")
 
 #? Set up Google Sheets API credentials
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-path = "../static/js/credentials.json"
-creds = ServiceAccountCredentials.from_json_keyfile_name('D:/VScode/CrimeHotspotAnalysis/static/js/credentials.json', scope)
-client = gspread.authorize(creds)
+# scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+# path = "../static/js/credentials.json"
+# creds = ServiceAccountCredentials.from_json_keyfile_name('D:/VScode/CrimeHotspotAnalysis/static/js/credentials.json', scope)
+# client = gspread.authorize(creds)
 
 def custom_data_converter(df):
   """Converts DataFrame to a list of dictionaries, replacing 'NA' with 'NA'."""
@@ -219,7 +219,7 @@ def map(request):
     return render(request,'Map.html')
 
 def fetchData(request):
-    filename = 'frontend/files/ProcessedData.csv'
+    filename = 'frontend/files/ProcessedData_2.csv'
     try:
         df = pd.read_csv(filename)
         print(f"Data fetched from local file '{filename}':")
@@ -251,8 +251,6 @@ def fetchData(request):
             "status":"False",
             "message":"Some error uccured, please try again later"
         })
-    # No return statement needed as the script doesn't return data
-
 
 def test(Request):
     # otp test
