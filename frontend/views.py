@@ -17,7 +17,7 @@ regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2
 #? Set up Google Sheets API credentials
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 path = "../static/js/credentials.json"
-creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/Dishant/Desktop/Engineering_docs/Third Year Material/sem_6/Mini_project/CrimeHotspotAnalysis/static/js/credentials.json', scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('D:/VScode/CrimeHotspotAnalysis/static/js/credentials.json', scope)
 client = gspread.authorize(creds)
 
 def custom_data_converter(df):
@@ -271,5 +271,4 @@ def details(request):
     return render(request,'details.html')
 
 def aboutus(request):
-    template = loader.get_template('aboutus.html')
-    return HttpResponse(template.render())
+    return render(request, 'aboutus.html')
