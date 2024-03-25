@@ -16,6 +16,9 @@ urlpatterns = [
 
     #* registeration and details page
     path('register', views.registration, name='registeration'),
-    path('details', views.details, name='details')
+    path('details', views.details, name='details'),
+
+    # abouts us page
+    path('aboutus', views.aboutus, name='aboutus')
     
 ]
