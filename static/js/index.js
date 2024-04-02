@@ -1,3 +1,5 @@
+const { NotFoundException } = require("@zxing/library");
+
 const host = "http://127.0.0.1:8000"
 
 var typed = new Typed(".auto-type", {
@@ -67,6 +69,15 @@ function handleLogin() {
         .then((jsonData)=>{
             if(jsonData.status){
                 alert(jsonData.message)
+                sessionStorage.setItem('auth',true)
             }
         })
 }
+
+// hidding login and signup button
+// var SI = document.getElementById('SIbutton')
+// var CA = document.getElementById('CAbutton')
+// if(sessionStorage.getItem('auth')){
+//     SI.style.display = 'none'
+//     SI.style.display = 'none'
+// }

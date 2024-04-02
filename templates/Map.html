@@ -35,6 +35,7 @@
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="../static/js/index.js"></script>
     <script src="../static/js/JSmaps.js"></script>
+    <script src="../static/js/formSubmission.js"></script>
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -98,9 +99,42 @@
           <li>
             <a href="#" onclick="viewCluster('4')">Cluster 5</a>
           </li>
+          <li>
+            <a href="#" onclick="viewCluster('5')">Cluster 6</a>
+          </li>
         </ul>
+        <div class="predictionBox">
+          <h1>PREDICT CRIME</h1>
+          <form action="">
+            <input type="text" class="name" placeholder="Enter your Name">
+            <input type="text" class="age" placeholder="Enter your Age">
+            <input type="text" class="gender" placeholder="Enter your Gender">
+            <label for="timeofday">Time of Day:</label>
+            <Select class="Tday">
+              <option value="Morning" selected>Morning</option>
+              <option value="Afternoon">Afternoon</option>
+              <option value="Evening">Evening</option>
+              <option value="Night">Night</option>
+            </Select>
+            <label for="placetype">Location Type:</label>
+            <Select class="Ltype">
+              <option value="Commercial" selected>Commercial</option>
+              <option value="Residential">Residential</option>
+              <option value="Public">Public</option>
+            </Select>
+            <label for="w">Weather Conditions:</label>
+            <Select class="Wcond">
+              <option value="Morning" selected>Morning</option>
+              <option value="Afternoon">Afternoon</option>
+              <option value="Evening">Evening</option>
+              <option value="Night">Night</option>
+            </Select>
+            <button type="button" onclick="submitForm()">SUBMIT</button>
+          </form>
+        </div>
       </div>
       <div class="mapContainer" id="map"></div>
+      <div class="indexBox"></div>
     </div>
   </body>
 </html>

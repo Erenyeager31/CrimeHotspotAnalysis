@@ -6,6 +6,7 @@ urlpatterns = [
     path('',views.index,name='home'),
     # path('register',views.register,name='register'),
     path('verifyEmail',views.verify_email,name="verifyEmail"),
+    path('verifyOTP',views.verifyOtp,name="verifyOTP"),
     path('createUser',views.accountCreation,name="accountCreation"),
     path('login',views.login,name="loginUser"),
     
@@ -14,6 +15,8 @@ urlpatterns = [
     path('fetchData',views.fetchData,name="fetchData"),
     path('fetchClusters',views.fetchClusterData,name="fetchData"),
     path('test',views.test,name="test"),
+    #* prediction
+    path('predict',views.predict,name='Predict'),
 
     #* registeration and details page
     path('register', views.registration, name='registeration'),
@@ -23,3 +26,4 @@ urlpatterns = [
     path('aboutus', views.aboutus, name='aboutus')
     
 ]
+

@@ -12,4 +12,5 @@ urlpatterns = [
     path('fetchData',include('frontend.urls')),
     path('fetchClusters',include('frontend.urls')),
     path('test',include('frontend.urls')),
+    path('predict',include('frontend.urls')),
 ]
