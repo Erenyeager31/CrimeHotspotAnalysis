@@ -54,7 +54,7 @@
 
   <body>
     <!-- nav bar hamburger -->
-    <nav>
+    <!-- <nav>
       <div id="menu">
         <div id="menu-bar" onclick="menuOnClick()">
           <div id="bar1" class="bar"></div>
@@ -65,7 +65,7 @@
           <ul>
             <li><a href="/">Home</a></li>
             <li><a href="map">Map</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="/aboutus">About</a></li>
             <li><a href="#">Contact</a></li>
           </ul>
         </nav>
@@ -74,10 +74,39 @@
       <div class="midnav circleBehind">
         <a href="/">HOME</a>
         <a href="map">MAP</a>
-        <a>ABOUT</a>
+        <a href="aboutus">ABOUT</a>
         <a>CONTACT</a>
       </div>
+    </nav> -->
+
+    <nav>
+      <div id="menu">
+        <div id="menu-bar" onclick="menuOnClick()">
+          <div id="bar1" class="bar"></div>
+          <div id="bar2" class="bar"></div>
+          <div id="bar3" class="bar"></div>
+        </div>
+        <nav class="nav" id="nav">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Services</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="menu-bg" id="menu-bg"></div>
+
+      <div class="midnav circleBehind">
+        <a>Home</a>
+        <a>About</a>
+        <a>Services</a>
+        <a>Team</a>
+        <a>Contact</a>
+      </div>
     </nav>
+
     <div class="MapContainer">
       <div class="sidebar">
         <ul>
@@ -124,10 +153,9 @@
             </Select>
             <label for="w">Weather Conditions:</label>
             <Select class="Wcond">
-              <option value="Morning" selected>Morning</option>
-              <option value="Afternoon">Afternoon</option>
-              <option value="Evening">Evening</option>
-              <option value="Night">Night</option>
+              <option value="Rainy" selected>Rainy</option>
+              <option value="Sunny">Sunny</option>
+              <option value="Cloudy">Cloudy</option>
             </Select>
             <button type="button" onclick="submitForm()">SUBMIT</button>
           </form>

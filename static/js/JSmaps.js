@@ -151,7 +151,7 @@ const addClusterMarkers = (map, jsonData, clusterNo) => {
     });
 
     jsonData.map((items) => {
-        console.log(items)
+        // console.log(items)
         try {
             marker = L.marker(items, {
                 icon: blackMarker

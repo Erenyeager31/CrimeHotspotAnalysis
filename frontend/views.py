@@ -12,6 +12,10 @@ import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
 from django.conf import settings
 from django.core.mail import send_mail
+import pickle
+
+auth = False
+uname = None
 
 #? Email regex
 regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+")
@@ -192,7 +196,11 @@ def login(request):
             if check_password(password,user.password):
                 res['status'] = True
                 res['message'] = "Login Successfull"
-                return JsonResponse(res)
+                response = JsonResponse(res)
+                response.set_cookie(key=f'{username}_auth',value=True,max_age=7200)
+                global uname
+                uname = username
+                return response
             else:
                 res['status'] = False
                 res['message'] = "Invalid Credentials"
@@ -210,7 +218,11 @@ def login(request):
 #**************************************************************
 
 def map(request):
-    return render(request,'Map.html')
+    data = request.COOKIES.get(f'{uname}_auth')
+    if data:
+        return render(request,'Map.html')
+    else:
+        return render(request,'index.html')
 
 def fetchData(request):
     filename = 'frontend/files/ProccessedData.csv'
@@ -292,6 +304,24 @@ def fetchClusterData(request):
 
 @csrf_exempt
 def predict(request):
+    Time_of_Day = {
+        "Morning":0,
+        "Afternoon":1,
+        "Evening":2,
+        "Night":3
+    }
+
+    Location_Type = {
+        "Commercial":0,
+        "Residential":1,
+        "Public":2
+    }
+
+    weather_cond = {
+        "Rainy":0,
+        "Sunny":1,
+        "Cloudy":2
+    }
     if request.method == 'POST':
         json_data = request.body.decode('utf-8')
         data = json.loads(json_data)
@@ -305,9 +335,21 @@ def predict(request):
         day = data.get("day")
         lat = data.get("lat")
         long = data.get("long")
+
+    with open('static/random_forest_model.pkl', 'rb') as file:
+        model = pickle.load(file)
+
+    # Assuming you have some input data to make predictions
+    input_data = [[gender, 0, lat, long, Time_of_Day[Tday], Location_Type[Ltype], weather_cond[Wcond], month, day]]  # Example input data, replace it with your actual input data
+
+    # Make predictions using the loaded model
+    predictions = model.predict(input_data)
+    print(predictions)
+
     return JsonResponse({
         "status":True,
-        "message":"Data received"
+        "message":"Data received",
+        # "prediction":predictions
     })
 
 

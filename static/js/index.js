@@ -1,6 +1,8 @@
-const { NotFoundException } = require("@zxing/library");
+// const { cookie } = require("express/lib/response");
 
 const host = "http://127.0.0.1:8000"
+
+console.log("Debug auto execution")
 
 var typed = new Typed(".auto-type", {
     strings: ["Welcome to CrimeSpoter"],
@@ -8,7 +10,6 @@ var typed = new Typed(".auto-type", {
     backSpeed: 100,
     loop: true
 })
-
 
 //nav bar hamburger
 function menuOnClick() {
@@ -46,38 +47,3 @@ function changeColorLI(onHover) {
         LIbutton.style.backgroundColor = 'black'; /* Initial color when not hovering */
     }
 }
-
-// login button 
-
-function handleLogin() {
-    var password = document.getElementById('inputPassword4').value
-    var username = document.getElementById('uname').value
-
-    fetch(`${host}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        }),
-    })
-        .then((res) => {
-            return res.json()
-        })
-        .then((jsonData)=>{
-            if(jsonData.status){
-                alert(jsonData.message)
-                sessionStorage.setItem('auth',true)
-            }
-        })
-}
-
-// hidding login and signup button
-// var SI = document.getElementById('SIbutton')
-// var CA = document.getElementById('CAbutton')
-// if(sessionStorage.getItem('auth')){
-//     SI.style.display = 'none'
-//     SI.style.display = 'none'
-// }

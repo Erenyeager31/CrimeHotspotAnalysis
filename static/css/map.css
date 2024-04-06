@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
     padding-left: 10px;
-    z-index: 9;
+    /* z-index: 9; */
 }
 
 .indexBox{
@@ -30,9 +30,10 @@
 }
 
 .sidebar{
+    /* display: none; */
     width: 20%;
     height: 100%;
-    background-color: #DC052D;
+    background-color: #9c05dc;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -73,4 +74,16 @@ ul > li > a{
 form>input:placeholder-shown{
     font-style: italic;
     color: red;
+}
+
+nav,.nav,#nav{
+    z-index: 20;
+}
+
+#menu{
+    z-index: 20;
+}
+
+.menu-bg{
+    z-index: 15;
 }
