@@ -2,11 +2,11 @@ var coords = []
 
 async function submitForm(e) {
     // e.preventDefault()
-    alert("hi")
+    alert("Predicting the Possibility for the type of crime...")
 
     var name = document.getElementsByClassName('name')[0].value
     var age = document.getElementsByClassName('age')[0].value
-    var gender = document.getElementsByClassName('gender')[0].value
+    var gender_ = document.getElementsByClassName('gender_')[0].value
     var Tday = document.getElementsByClassName('Tday')[0].value
     var Ltype = document.getElementsByClassName('Ltype')[0].value
     var Wcond = document.getElementsByClassName('Wcond')[0].value
@@ -23,7 +23,7 @@ async function submitForm(e) {
         body: JSON.stringify({
             name,
             age,
-            gender,
+            gender_,
             Tday,
             Ltype,
             Wcond,
@@ -55,6 +55,7 @@ function showPosition(position) {
     coords.push(longitude)
     console.log("Latitude: " + latitude);
     console.log("Longitude: " + longitude);
+    submitForm()
 }
 
 function showError(error) {

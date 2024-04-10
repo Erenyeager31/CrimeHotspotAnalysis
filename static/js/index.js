@@ -2,14 +2,16 @@
 
 const host = "http://127.0.0.1:8000"
 
+$().toastmessage('showSuccessToast', "Hello there! Message is shown.");
+
 console.log("Debug auto execution")
 
-var typed = new Typed(".auto-type", {
-    strings: ["Welcome to CrimeSpoter"],
-    typeSpeed: 100,
-    backSpeed: 100,
-    loop: true
-})
+// var typed = new Typed(".auto-type", {
+//     strings: ["Welcome to CrimeSpoter"],
+//     typeSpeed: 100,
+//     backSpeed: 100,
+//     loop: true
+// })
 
 //nav bar hamburger
 function menuOnClick() {

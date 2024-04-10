@@ -13,6 +13,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 from django.conf import settings
 from django.core.mail import send_mail
 import pickle
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+import numpy as np
 
 auth = False
 uname = None
@@ -304,25 +306,9 @@ def fetchClusterData(request):
 
 @csrf_exempt
 def predict(request):
-    Time_of_Day = {
-        "Morning":0,
-        "Afternoon":1,
-        "Evening":2,
-        "Night":3
-    }
-
-    Location_Type = {
-        "Commercial":0,
-        "Residential":1,
-        "Public":2
-    }
-
-    weather_cond = {
-        "Rainy":0,
-        "Sunny":1,
-        "Cloudy":2
-    }
+    reverse_mapping = {0: 'Kidnapping', 1: 'Murder', 2: 'Other', 3: 'Robbery', 4: 'Sexual Harassment', 5: 'Theft'}
     if request.method == 'POST':
+        print("request recevied")
         json_data = request.body.decode('utf-8')
         data = json.loads(json_data)
         name = data.get("name")
@@ -336,20 +322,22 @@ def predict(request):
         lat = data.get("lat")
         long = data.get("long")
 
-    with open('static/random_forest_model.pkl', 'rb') as file:
+    with open('static/GBmodel.pkl', 'rb') as file:
         model = pickle.load(file)
 
     # Assuming you have some input data to make predictions
-    input_data = [[gender, 0, lat, long, Time_of_Day[Tday], Location_Type[Ltype], weather_cond[Wcond], month, day]]  # Example input data, replace it with your actual input data
-
+    input_data = [[0, 19, lat, long, Tday, Ltype, Wcond, month, day]]  # Example input data, replace it with your actual input data
+    print(input_data)
     # Make predictions using the loaded model
-    predictions = model.predict(input_data)
-    print(predictions)
+    # le = LabelEncoder()
+    predicted_labels = model.predict(input_data)
+    # predicted_labels = le.inverse_transform(predicted_labels_encode)
+    print(predicted_labels)
 
     return JsonResponse({
         "status":True,
         "message":"Data received",
-        # "prediction":predictions
+        "prediction":reverse_mapping[predicted_labels[0]]
     })
 
 
@@ -371,3 +359,13 @@ def details(request):
 
 def aboutus(request):
     return render(request, 'aboutus.html')
+
+def logout(request):
+    global uname
+    global auth
+    uname = None
+    auth = False
+    return JsonResponse({
+        'status':True,
+        'message':'User logged out succesfullly'
+    })

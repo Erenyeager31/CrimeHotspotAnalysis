@@ -9,6 +9,7 @@ urlpatterns = [
     path('verifyOTP',views.verifyOtp,name="verifyOTP"),
     path('createUser',views.accountCreation,name="accountCreation"),
     path('login',views.login,name="loginUser"),
+    path('logout',views.logout,name="logout"),
     
     #* Map routing
     path('map',views.map,name="Map"),

@@ -2,7 +2,7 @@
     width: 100vw;
     height: 90vh;
     display: flex;
-    z-index: 2;
+    /* z-index: 2; */
     position: relative;
 
 }
@@ -18,14 +18,15 @@
 
 .indexBox{
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: fit-content;
     background-color: #ffffffff;
     color: black;
     right: 10px;
     bottom: 10px;
-    z-index: 100;
+    z-index: 1000;
     padding: 10px;
+    font-weight: 600;
     overflow-y: scroll;
 }
 
@@ -42,11 +43,16 @@
 
 ul > li > a{
     text-decoration: none;
-    color: black;
+    color: white;
     font-weight: 500;
     letter-spacing: 2px;
     font-size: 20px;
     font-style: italic;
+}
+
+h1{
+    font-weight: 800;
+    font-family: monospace;
 }
 
 .predictionBox{
@@ -57,33 +63,35 @@ ul > li > a{
     justify-content: center;
     align-items: center;
     background-color: black;
+    overflow-y: scroll;
 }
 
 .predictionBox > form{
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
+    overflow-y: scroll;
 }
 
-.predictionBox > form:nth-child(){
-    margin-bottom: 20px;
+form > input,form > label,form > button{
+    margin-top: 20px;
 }
 
 form>input:placeholder-shown{
     font-style: italic;
-    color: red;
+    color: black;
 }
 
 nav,.nav,#nav{
-    z-index: 20;
+    /* z-index: 20; */
 }
 
 #menu{
-    z-index: 20;
+    /* z-index: 20; */
 }
 
 .menu-bg{
-    z-index: 15;
+    /* z-index: 15; */
 }

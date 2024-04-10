@@ -85,6 +85,8 @@ function addUser() {
     });
 
     try {
+        sessionStorage.setItem('userLocation',userPosition)
+        console.log(userPosition)
         var userMarker = L.marker([userPosition[0], userPosition[1]], {
             icon: blackMarker
         })

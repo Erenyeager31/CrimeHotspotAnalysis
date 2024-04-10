@@ -13,4 +13,5 @@ urlpatterns = [
     path('fetchClusters',include('frontend.urls')),
     path('test',include('frontend.urls')),
     path('predict',include('frontend.urls')),
+    path('logout',include('frontend.urls')),
 ]
