@@ -1,0 +1,10 @@
+.chartContainer{
+    width: 100vw;
+    height: 92vh;
+    /* background-color: red; */
+    border: 2px solid white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px;
+}

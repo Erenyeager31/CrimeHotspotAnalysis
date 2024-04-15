@@ -7,7 +7,7 @@
     <script src="../static/js/functionalityHandler.js"></script>
     <script src="../static/js/index.js"></script>
     <script src="../static/js/logout.js"></script>
-    <link rel="stylesheet" href="../static/css/jquery.toastmessage.css">
+    <link rel="stylesheet" href="../static/css/jquery.toastmessage.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -47,7 +47,7 @@
           <ul>
             <li><a href="/">Home</a></li>
             <li><a href="map">Map</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="aboutus">About</a></li>
             <li><a href="#">Contact</a></li>
             <li onclick="logout()">LOGOUT</li>
           </ul>
@@ -59,9 +59,9 @@
       <div class="midnav circleBehind">
         <a href="/">HOME</a>
         <a href="map">MAP</a>
-        <a>ABOUT</a>
+        <a href="aboutus">ABOUT</a>
         <a>CONTACT</a>
-        <a onclick="logout()">LOGOUT</a>
+        <a onclick="logout()" id="logoutButton">LOGOUT</a>
       </div>
     </nav>
 
@@ -69,7 +69,7 @@
     <div class="container text-center">
       <div class="container align-items-center maindiv">
         <h1><span class="auto-type"></span></h1>
-        <h3>Say no to crime!</h3>
+        <h3 id="slogan">Say no to crime!</h3>
         <br />
 
         <div
@@ -181,15 +181,10 @@
             </li>
           </ul>
           <ul class="menu">
-            <li class="menu__item"><a class="menu__link" href="#">Home</a></li>
-            <li class="menu__item"><a class="menu__link" href="#">About</a></li>
-            <li class="menu__item">
-              <a class="menu__link" href="#">Services</a>
-            </li>
-            <li class="menu__item"><a class="menu__link" href="#">Team</a></li>
-            <li class="menu__item">
-              <a class="menu__link" href="#">Contact</a>
-            </li>
+            <li class="menu__item"><a class="menu__link" href="/">Home</a></li>
+            <li class="menu__item"><a class="menu__link" href="aboutus">About</a></li>
+            <li class="menu__item"><a class="menu__link" href="map">Map</a></li>
+            <li class="menu__item"><a class="menu__link" href="#">Contact</a></li>
           </ul>
         </footer>
         <script

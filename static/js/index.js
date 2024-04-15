@@ -2,7 +2,7 @@
 
 const host = "http://127.0.0.1:8000"
 
-$().toastmessage('showSuccessToast', "Hello there! Message is shown.");
+// $().toastmessage('showSuccessToast', "Hello there! Message is shown.");
 
 console.log("Debug auto execution")
 

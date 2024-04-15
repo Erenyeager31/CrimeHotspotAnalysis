@@ -16,6 +16,7 @@ urlpatterns = [
     path('fetchData',views.fetchData,name="fetchData"),
     path('fetchClusters',views.fetchClusterData,name="fetchData"),
     path('test',views.test,name="test"),
+
     #* prediction
     path('predict',views.predict,name='Predict'),
 
@@ -24,7 +25,10 @@ urlpatterns = [
     path('details', views.details, name='details'),
 
     # abouts us page
-    path('aboutus', views.aboutus, name='aboutus')
-    
+    path('aboutus', views.aboutus, name='aboutus'),
+
+    # analysis data and page
+    path('getData',views.fetchProcessedData,name='getProcessedData'),
+    path('chart',views.chartPage,name='getProcessedData'),
 ]
 

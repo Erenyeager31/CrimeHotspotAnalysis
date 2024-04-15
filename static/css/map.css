@@ -1,3 +1,7 @@
+::-webkit-scrollbar {
+    display: none;
+}
+
 .MapContainer{
     width: 100vw;
     height: 90vh;
@@ -14,6 +18,20 @@
     justify-content: center;
     padding-left: 10px;
     /* z-index: 9; */
+}
+
+.result{
+    position: absolute;
+    width: 300px;
+    height: fit-content;
+    background-color: #ffffffff;
+    color: black;
+    right: 10px;
+    top: 10px;
+    z-index: 1000;
+    padding: 10px;
+    font-weight: 600;
+    overflow-y: scroll;
 }
 
 .indexBox{
@@ -34,7 +52,7 @@
     /* display: none; */
     width: 20%;
     height: 100%;
-    background-color: #9c05dc;
+    background-color: #000000;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -68,11 +86,13 @@ h1{
 
 .predictionBox > form{
     width: 100%;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
     align-items: center;
-    overflow-y: scroll;
+    padding: 10px;
+    /* overflow-y: scroll; */
 }
 
 form > input,form > label,form > button{
@@ -84,14 +104,25 @@ form>input:placeholder-shown{
     color: black;
 }
 
+form>input,form>select{
+    width: 100%;
+}
+
+form>label{
+    font-style: italic;
+}
+
+/* 
 nav,.nav,#nav{
-    /* z-index: 20; */
 }
 
 #menu{
-    /* z-index: 20; */
 }
 
 .menu-bg{
-    /* z-index: 15; */
+} */
+
+#fTitle{
+    background-color: #fff;
+    color: #000000aa;
 }

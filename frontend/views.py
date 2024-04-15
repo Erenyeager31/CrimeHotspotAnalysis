@@ -348,7 +348,6 @@ def test(Request):
     cache_key = f'otp_{email}'
     return HttpResponse(cache.get(cache_key))
 
-
 #? registeration page
 def registration(request):
     return render(request,'registration_page.html')
@@ -369,3 +368,40 @@ def logout(request):
         'status':True,
         'message':'User logged out succesfullly'
     })
+
+#*************************** ANALYSIS ***************************
+@csrf_exempt
+def fetchProcessedData(request):
+    filename = 'frontend/files/ProccessedData.csv'
+    try:
+        df = pd.read_csv(filename)
+        print(f"Data fetched from local file '{filename}':")
+        df.fillna('NA',inplace=True)
+        data = df.to_json(orient='records',lines=True)
+
+        
+        return JsonResponse({
+            "status":"True",
+            "message":"Data fetched succesfully",
+            "Data":data
+        })
+
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found. Please check the file path.")
+        return JsonResponse({
+            "status":"False",
+            "message":"Some error occured, please try again later !"
+        })
+    except Exception as e:    
+        print(f"Error: {e}")
+        return JsonResponse({
+            "status":"False",
+            "message":"Some error occured, please try again later !!"
+        })
+    
+def chartPage(request):
+    data = request.COOKIES.get(f'{uname}_auth')
+    if data:
+        return render(request,'Chart.html')
+    else:
+        return render(request,'index.html')

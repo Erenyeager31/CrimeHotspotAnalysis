@@ -99,11 +99,11 @@
       <div class="menu-bg" id="menu-bg"></div>
 
       <div class="midnav circleBehind">
-        <a href="/">Home</a>
-        <a>About</a>
-        <a>Services</a>
-        <a>Team</a>
-        <a>Contact</a>
+        <a href="/">HOME</a>
+        <a href="map">MAP</a>
+        <a href="aboutus">ABOUT</a>
+        <a>CONTACT</a>
+        <a onclick="logout()" id="logoutButton">LOGOUT</a>
       </div>
     </nav>
 
@@ -132,41 +132,42 @@
             <a href="#" onclick="viewCluster('5')">Cluster 6</a>
           </li>
         </ul>
-        <h1>PREDICT CRIME</h1>
+        <h1 id="fTitle">PREDICT CRIME</h1>
 
         <div class="predictionBox">
           <form action="">
-            <input type="text" class="name" placeholder="Enter your Name">
-            <input type="text" class="age" placeholder="Enter your Age">
+            <input type="text" class="name" placeholder="Enter your Name" />
+            <input type="text" class="age" placeholder="Enter your Age" />
             <label for="gender">Gender:</label>
             <Select class="gender_">
-              <option value=0 selected>Female</option>
-              <option value=1>Male</option>
+              <option value="0" selected>Female</option>
+              <option value="1">Male</option>
             </Select>
             <label for="timeofday">Time of Day:</label>
             <Select class="Tday">
-              <option value=0 selected>Morning</option>
-              <option value=1>Afternoon</option>
-              <option value=2>Evening</option>
-              <option value=3>Night</option>
+              <option value="0" selected>Morning</option>
+              <option value="1">Afternoon</option>
+              <option value="2">Evening</option>
+              <option value="3">Night</option>
             </Select>
             <label for="placetype">Location Type:</label>
             <Select class="Ltype">
-              <option value=0 selected>Commercial</option>
-              <option value=1>Residential</option>
-              <option value=2>Public</option>
+              <option value="0" selected>Commercial</option>
+              <option value="1">Residential</option>
+              <option value="2">Public</option>
             </Select>
             <label for="w">Weather Conditions:</label>
             <Select class="Wcond">
-              <option value=0 selected>Rainy</option>
-              <option value=1>Sunny</option>
-              <option value=2>Cloudy</option>
+              <option value="0" selected>Rainy</option>
+              <option value="1">Sunny</option>
+              <option value="2">Cloudy</option>
             </Select>
             <button type="button" onclick="getLocation()">SUBMIT</button>
           </form>
         </div>
       </div>
       <div class="mapContainer" id="map"></div>
+      <div class="result"></div>
       <div class="indexBox"></div>
     </div>
   </body>

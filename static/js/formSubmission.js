@@ -37,19 +37,43 @@ async function submitForm(e) {
     const data = await response.json()
     console.log(data)
 
+    // access the dom element
+    var result = document.getElementsByClassName('result')[0]
+    // set the content
+    result.innerHTML = ''; // Clear previous content
+
+    // create a new div within
+    var div = document.createElement('div');
+    // append to the div
+    var content = `PREDICTION : ${data['prediction']}`;
+
+    div.innerHTML = content;
+    result.appendChild(div);
 }
 
 function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    // alert('Predicting the possible crime, please wait')
+    console.log(sessionStorage.getItem('latitude'))
+    console.log(sessionStorage.getItem('longitude'))
+    if (sessionStorage.getItem('latitude') !== null && sessionStorage.getItem('longitude') !== null) {
+        coords.push(sessionStorage.getItem('latitude'))
+        coords.push(sessionStorage.getItem('longitude'))
+        submitForm()
     } else {
-        console.log("Geolocation is not supported by this browser.");
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
     }
 }
 
 function showPosition(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
+
+    sessionStorage.setItem('latitude', latitude)
+    sessionStorage.setItem('longitude', longitude)
 
     coords.push(latitude)
     coords.push(longitude)

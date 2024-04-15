@@ -2,6 +2,16 @@
 
 var userPosition = []
 
+const dayofweek = {
+    1: 'sunday',
+    2: 'monday',
+    3: 'tuesday',
+    4: 'wednesday',
+    5: 'thursday',
+    6: 'friday',
+    7: 'saturday'
+};
+
 var polyCoords = {
     '0': [],
     '1': [],
@@ -85,7 +95,7 @@ function addUser() {
     });
 
     try {
-        sessionStorage.setItem('userLocation',userPosition)
+        sessionStorage.setItem('userLocation', userPosition)
         console.log(userPosition)
         var userMarker = L.marker([userPosition[0], userPosition[1]], {
             icon: blackMarker
@@ -158,8 +168,8 @@ const addClusterMarkers = (map, jsonData, clusterNo) => {
             marker = L.marker(items, {
                 icon: blackMarker
             });
-            marker = L.marker([items[0], items[1]],{
-                icon:blackMarker
+            marker = L.marker([items[0], items[1]], {
+                icon: blackMarker
             });
             var tooltip = `<b>${items[2]}</b><br><a href="${items[3]}" target="_blank">More info</a>`;
             marker.bindPopup(tooltip);
@@ -229,7 +239,7 @@ const fetchData = async () => {
         var desc = jsonData2[resData]['crime description']
         var link = jsonData2[resData]['Link/source']
         // console.log(resData,jsonData2[resData]['Cluster'])
-        polyCoords[jsonData2[resData]['Cluster']].push([lat, long,desc,link])
+        polyCoords[jsonData2[resData]['Cluster']].push([lat, long, desc, link])
     }
     // console.log(polyCoords)
 
@@ -266,19 +276,45 @@ function viewCluster(clusterNo) {
     var indexBox = document.getElementsByClassName('indexBox')[0]
     if (clusterNo == 4)
         indexBox.style.color = "white"
-    else 
+    else
         indexBox.style.color = "black"
 
     indexBox.style.backgroundColor = clusterColor[clusterNo]
 
     indexBox.innerHTML = ''; // Clear previous content
 
-    for (var key in clusterCharacter[clusterNo][0]) {
-        // console.log(key);
+    // for (var key in clusterCharacter[clusterNo][0]) {
+    //     // console.log(key);
+    //     var div = document.createElement('div');
+    //     div.textContent = `${key} : ${clusterCharacter[clusterNo][0][key]}`;
+    //     indexBox.appendChild(div);
+    //     // console.log(indexBox)
+    // }
+
+    // Get the keys of the object
+    var keys = Object.keys(clusterCharacter[clusterNo][0]);
+    var isFirstIndex = true;
+
+    // Iterate over the keys in reverse order
+    for (var i = keys.length - 1; i >= 0; i--) {
+        // console.log(i)
+        var key = keys[i];
         var div = document.createElement('div');
-        div.textContent = `${key} : ${clusterCharacter[clusterNo][0][key]}`;
+        if (key === 'Day of Week'){
+            var content = `${key} : ${dayofweek[clusterCharacter[clusterNo][0][key]]}`;
+        }else{
+            var content = `${key} : ${clusterCharacter[clusterNo][0][key]}`;
+        }
+        
+
+        // If it's the first index, make the content bold
+        if (isFirstIndex) {
+            content = `<b>${content}</b>`;
+            isFirstIndex = false; // Set the flag to false after encountering the first index
+        }
+
+        div.innerHTML = content;
         indexBox.appendChild(div);
-        // console.log(indexBox)
     }
 
     addClusterMarkers(map, polyCoords[clusterNo], clusterNo)
@@ -286,15 +322,15 @@ function viewCluster(clusterNo) {
 
 function removeAllLayers(map) {
     map.eachLayer(function (layer) {
-        if (layer instanceof L.Marker 
+        if (layer instanceof L.Marker
             // || layer instanceof L.TileLayer || layer instanceof L.LayerGroup
-            ) {
+        ) {
             map.removeLayer(layer);
         }
     });
     try {
         map.removeLayer(heatMap)
     } catch (error) {
-        
+
     }
 }
