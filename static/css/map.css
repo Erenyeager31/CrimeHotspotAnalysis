@@ -1,8 +1,14 @@
+::-webkit-scrollbar {
+    display: none;
+}
+
 .MapContainer{
     width: 100vw;
     height: 90vh;
     display: flex;
-    z-index: 2;
+    /* z-index: 2; */
+    position: relative;
+
 }
 
 .mapContainer{
@@ -11,12 +17,42 @@
     display: flex;
     justify-content: center;
     padding-left: 10px;
+    /* z-index: 9; */
+}
+
+.result{
+    position: absolute;
+    width: 300px;
+    height: fit-content;
+    background-color: #ffffffff;
+    color: black;
+    right: 10px;
+    top: 10px;
+    z-index: 1000;
+    padding: 10px;
+    font-weight: 600;
+    overflow-y: scroll;
+}
+
+.indexBox{
+    position: absolute;
+    width: 300px;
+    height: fit-content;
+    background-color: #ffffffff;
+    color: black;
+    right: 10px;
+    bottom: 10px;
+    z-index: 1000;
+    padding: 10px;
+    font-weight: 600;
+    overflow-y: scroll;
 }
 
 .sidebar{
+    /* display: none; */
     width: 20%;
     height: 100%;
-    background-color: #DC052D;
+    background-color: #000000;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -25,9 +61,68 @@
 
 ul > li > a{
     text-decoration: none;
-    color: black;
+    color: white;
     font-weight: 500;
     letter-spacing: 2px;
     font-size: 20px;
     font-style: italic;
+}
+
+h1{
+    font-weight: 800;
+    font-family: monospace;
+}
+
+.predictionBox{
+    width: 100%;
+    height: fit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    overflow-y: scroll;
+}
+
+.predictionBox > form{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 10px;
+    /* overflow-y: scroll; */
+}
+
+form > input,form > label,form > button{
+    margin-top: 20px;
+}
+
+form>input:placeholder-shown{
+    font-style: italic;
+    color: black;
+}
+
+form>input,form>select{
+    width: 100%;
+}
+
+form>label{
+    font-style: italic;
+}
+
+/* 
+nav,.nav,#nav{
+}
+
+#menu{
+}
+
+.menu-bg{
+} */
+
+#fTitle{
+    background-color: #fff;
+    color: #000000aa;
 }

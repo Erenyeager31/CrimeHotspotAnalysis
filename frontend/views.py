@@ -10,6 +10,14 @@ from django.http import JsonResponse
 import gspread
 import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
+from django.conf import settings
+from django.core.mail import send_mail
+import pickle
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+import numpy as np
+
+auth = False
+uname = None
 
 #? Email regex
 regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+")
@@ -20,31 +28,6 @@ regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2
 # creds = ServiceAccountCredentials.from_json_keyfile_name('D:/VScode/CrimeHotspotAnalysis/static/js/credentials.json', scope)
 # client = gspread.authorize(creds)
 
-def custom_data_converter(df):
-  """Converts DataFrame to a list of dictionaries, replacing 'NA' with 'NA'."""
-  data_list = []
-  for index, row in df.iterrows():
-    if (index == 40):
-        print(data_dict)
-    data_dict = row.replace('nan', 'NA').to_dict()  # Replace 'NA' before conversion
-    if (index == 40):
-        print(data_dict)
-    print()
-    data_list.append(data_dict)
-  return data_list
-
-def fetch_google_sheets_data(worksheet_name):
-    # Open the worksheet
-    worksheet = client.open('CrimeDataset').worksheet(worksheet_name)
-
-    # Get all records from the worksheet
-    records = worksheet.get_all_records()
-
-    # Convert records to Pandas DataFrame
-    df = pd.DataFrame(records)
-
-    return df['crime Location']
-
 #? function for otp generation
 def GenOtpAndStore(email):
 # Generate a 6-digit random OTP
@@ -53,6 +36,7 @@ def GenOtpAndStore(email):
     # Store the OTP in the cache with a TTL (time-to-live) of 5 minutes (300 seconds)
     cache_key = f'otp_{email}'
     cache.set(cache_key, otp, timeout=600)
+
     return otp
 
 def passwordHashing(password):
@@ -66,6 +50,14 @@ def index(request):
 #? Redirect
 # def register(request):
 #     return render(request,"register.html")
+
+#? Sending OTP
+def sendOTP(email,otp):
+    subject = 'welcome to Crime Hotspot Analyser'
+    message = f'Hi your OTP for registering on Crime Analyser is : {otp}'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    send_mail( subject, message, email_from, recipient_list )
 
 #? Email verification and otp generation
 @csrf_exempt
@@ -91,7 +83,14 @@ def verify_email(request):
                     })
                 else:
                     print("3")
+                    # otpVal = cache.get(f'otp_{email}')
+                    # if otpVal:
+                    #     return JsonResponse({
+                    #     "status":True,
+                    #     "message":"OTP already sent succesfully, please wait for 5 minutes"
+                    #     })
                     otp = GenOtpAndStore(email)
+                    sendOTP(email,otp)
                     return JsonResponse({
                         "status":True,
                         "message":"OTP sent succesfully"
@@ -169,6 +168,7 @@ def accountCreation(request):
                 "message":"Account Created successfully"
             })
         except Exception as e:
+            print(e)
             return JsonResponse({
                 "status":False,
                 "message":"Unable to proccess, Please try again later"
@@ -198,7 +198,11 @@ def login(request):
             if check_password(password,user.password):
                 res['status'] = True
                 res['message'] = "Login Successfull"
-                return JsonResponse(res)
+                response = JsonResponse(res)
+                response.set_cookie(key=f'{username}_auth',value=True,max_age=7200)
+                global uname
+                uname = username
+                return response
             else:
                 res['status'] = False
                 res['message'] = "Invalid Credentials"
@@ -216,10 +220,14 @@ def login(request):
 #**************************************************************
 
 def map(request):
-    return render(request,'Map.html')
+    data = request.COOKIES.get(f'{uname}_auth')
+    if data:
+        return render(request,'Map.html')
+    else:
+        return render(request,'index.html')
 
 def fetchData(request):
-    filename = 'frontend/files/ProcessedData_2.csv'
+    filename = 'frontend/files/ProccessedData.csv'
     try:
         df = pd.read_csv(filename)
         print(f"Data fetched from local file '{filename}':")
@@ -230,7 +238,7 @@ def fetchData(request):
             'crime Location', 
             'Link/source'
             ]]
-        # data = custom_data_converter(df)
+
         data = selected_df.to_json(orient='records',lines=True)
         # print(data)
         return JsonResponse({
@@ -254,6 +262,8 @@ def fetchData(request):
 
 def fetchClusterData(request):
     filename = 'frontend/files/ClusteredData.csv'
+    filename2 = 'frontend/files/ClusterCharacter.csv'
+
     try:
         df = pd.read_csv(filename)
         print(f"Data fetched from local file '{filename}':")
@@ -263,15 +273,22 @@ def fetchClusterData(request):
             'lat',
             'long',
             'Cluster',
-            'Type of crime'
+            'Type of crime',
+            'Link/source',
+            'crime description'
             ]]
-        # data = custom_data_converter(df)
         data = selected_df.to_json(orient='records',lines=True)
-        # print(data)
+        
+        df1 = pd.read_csv(filename2)
+        print(f"Data fetched from local file '{filename2}':")
+        # print(df1)
+        df1.fillna('NA',inplace=True)
+        data2 = df1.to_json(orient='records',lines=True)
         return JsonResponse({
             "status":"True",
             "message":"Data fetched succesfully",
-            "Data":data
+            "Data":data,
+            "Data2":data2
         })
 
     except FileNotFoundError:
@@ -287,13 +304,49 @@ def fetchClusterData(request):
             "message":"Some error uccured, please try again later"
         })
 
+@csrf_exempt
+def predict(request):
+    reverse_mapping = {0: 'Kidnapping', 1: 'Murder', 2: 'Other', 3: 'Robbery', 4: 'Sexual Harassment', 5: 'Theft'}
+    if request.method == 'POST':
+        print("request recevied")
+        json_data = request.body.decode('utf-8')
+        data = json.loads(json_data)
+        name = data.get("name")
+        age = data.get("age")
+        gender = data.get("gender")
+        Tday = data.get("Tday")
+        Ltype = data.get("Ltype")
+        Wcond = data.get("Wcond")
+        month = data.get("month")
+        day = data.get("day")
+        lat = data.get("lat")
+        long = data.get("long")
+
+    with open('static/GBmodel.pkl', 'rb') as file:
+        model = pickle.load(file)
+
+    # Assuming you have some input data to make predictions
+    input_data = [[0, 19, lat, long, Tday, Ltype, Wcond, month, day]]  # Example input data, replace it with your actual input data
+    print(input_data)
+    # Make predictions using the loaded model
+    # le = LabelEncoder()
+    predicted_labels = model.predict(input_data)
+    # predicted_labels = le.inverse_transform(predicted_labels_encode)
+    print(predicted_labels)
+
+    return JsonResponse({
+        "status":True,
+        "message":"Data received",
+        "prediction":reverse_mapping[predicted_labels[0]]
+    })
+
+
 def test(Request):
     # otp test
     email = Request.GET.get("email")
     otp = GenOtpAndStore(email)
     cache_key = f'otp_{email}'
     return HttpResponse(cache.get(cache_key))
-
 
 #? registeration page
 def registration(request):
@@ -305,3 +358,50 @@ def details(request):
 
 def aboutus(request):
     return render(request, 'aboutus.html')
+
+def logout(request):
+    global uname
+    global auth
+    uname = None
+    auth = False
+    return JsonResponse({
+        'status':True,
+        'message':'User logged out succesfullly'
+    })
+
+#*************************** ANALYSIS ***************************
+@csrf_exempt
+def fetchProcessedData(request):
+    filename = 'frontend/files/ProccessedData.csv'
+    try:
+        df = pd.read_csv(filename)
+        print(f"Data fetched from local file '{filename}':")
+        df.fillna('NA',inplace=True)
+        data = df.to_json(orient='records',lines=True)
+
+        
+        return JsonResponse({
+            "status":"True",
+            "message":"Data fetched succesfully",
+            "Data":data
+        })
+
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found. Please check the file path.")
+        return JsonResponse({
+            "status":"False",
+            "message":"Some error occured, please try again later !"
+        })
+    except Exception as e:    
+        print(f"Error: {e}")
+        return JsonResponse({
+            "status":"False",
+            "message":"Some error occured, please try again later !!"
+        })
+    
+def chartPage(request):
+    data = request.COOKIES.get(f'{uname}_auth')
+    if data:
+        return render(request,'Chart.html')
+    else:
+        return render(request,'index.html')
