@@ -33,7 +33,7 @@ async function enter_details() {
             alert(data.message)
         }
     } else {
-        const response = await fetch("http://127.0.0.1:8000/verifyEmail", {
+        const response = await fetch("http://127.0.0.1:8000/verifyOTP", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -47,7 +47,8 @@ async function enter_details() {
         const data = await response.json()
         if (data.status) {
             alert(data.message)
-            window.location.href('details.html')
+            sessionStorage.setItem('email',otpEmail.value)
+            window.location.assign('details')
         } else {
             alert(data.message)
         }
