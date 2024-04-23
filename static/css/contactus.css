@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: white;
+}
+
+.container {
+    width: 80%;
+    max-width: 600px;
+    margin: 15vh auto;
+    padding: 30px;
+    background-color: rgb(192, 0, 0);
+    border-radius: 20px;
+}
+
+h2 {
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form textarea {
+    width: 96.5%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+form button {
+    width: 100%;
+    margin: 15px 0 0 0;
+    padding: 13px;
+    background-color: black;
+    color: white;
+    font-size: large;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #868686;
+}
+
+#response {
+    margin-top: 20px;
+    text-align: center;
+}

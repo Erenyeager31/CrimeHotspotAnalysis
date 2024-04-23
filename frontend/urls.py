@@ -26,6 +26,9 @@ urlpatterns = [
 
     # abouts us page
     path('aboutus', views.aboutus, name='aboutus'),
+    
+    # contact us page
+    path('contactus', views.contactus, name='contactus'),
 
     # analysis data and page
     path('getData',views.fetchProcessedData,name='getProcessedData'),

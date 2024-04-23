@@ -359,6 +359,9 @@ def details(request):
 def aboutus(request):
     return render(request, 'aboutus.html')
 
+def contactus(request):
+    return render(request, 'contactus.html')
+
 def logout(request):
     global uname
     global auth
